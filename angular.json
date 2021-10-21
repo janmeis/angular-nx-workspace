@@ -18,7 +18,10 @@
             "tsConfig": "apps/todos/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": ["apps/todos/src/favicon.ico", "apps/todos/src/assets"],
-            "styles": ["apps/todos/src/styles.scss"],
+            "styles": [
+              "node_modules/bulma/css/bulma.css",
+              "apps/todos/src/styles.scss"
+            ],
             "scripts": []
           },
           "configurations": {

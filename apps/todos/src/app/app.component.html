@@ -1,7 +1,39 @@
-<h1>Todos</h1>
+<div class="container">
+  <div>
+    <h1 class="title has-text-centered">Todos</h1>
+  </div>
 
-<ul>
-  <li *ngFor="let t of todos" class="todo">{{ t.title }}</li>
-</ul>
+  <div class="columns is-mobile is-centered">
+    <div class="column is-5">
+      <div class="list">
+        <ul>
+          <div *ngFor="let t of todos$ | async" class="todo" class="list-item">
+            <li>{{ t.id}}:&nbsp;{{ t.title }}</li>
+          </div>
+        </ul>
+      </div>
+      <form #form="ngForm" class="mt-5">
+        <div class="field">
+          <label class="label">Todo Id</label>
+          <div class="control">
+            <input #td class="input" type="text" placeholder="Todo Id">
+          </div>
+        </div>
 
-<button id="add-todo" (click)="addTodo()">Add Todo</button>
+        <div class="field is-grouped">
+          <div class="control">
+            <button class="button is-link" (click)="getTodo(td.value)">Get Todo</button>
+          </div>
+        </div>
+
+        <div *ngIf="todo" class="field">
+          <label class="label">Todo</label>
+          <div class="control">
+            {{ todo.title }}
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+</div>

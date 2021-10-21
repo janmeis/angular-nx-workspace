@@ -1,9 +1,8 @@
 import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
+import { Observable } from 'rxjs';
+import { ITodo } from './models/ITodo';
 
-interface Todo {
-  title: string;
-}
 @Component({
   selector: 'angular-nx-workspace-root',
   templateUrl: './app.component.html',
@@ -11,19 +10,22 @@ interface Todo {
 })
 export class AppComponent {
   title = 'todos';
-  todos: Todo[] = [];
+  todos$!: Observable<ITodo[]>;
+  todo!: ITodo;
 
-  constructor(private http: HttpClient) {
-    this.fetch();
+  constructor(
+    private http: HttpClient,
+    @Inject('BASE_URL') private baseUrl: string) {
+
+    this.todos$ = this.fetch$();
   }
 
-  fetch() {
-    this.http.get<Todo[]>('/api/todos').subscribe((t) => (this.todos = t));
-  }
+  fetch$ = () => this.http.get<ITodo[]>(this.baseUrl + '/Todo')
 
-  addTodo() {
-    this.http.post('/api/addTodo', {}).subscribe(() => {
-      this.fetch();
-    });
+  getTodo(id: string): void {
+    if (!id || !+id || +id < 0)
+      return;
+
+    this.http.get<ITodo>(this.baseUrl + `/Todo/${id}`).subscribe(todo => this.todo = todo);
   }
 }
